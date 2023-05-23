@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <table id="myTable" class="display" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>asif@yopmail.com</td>
+                <td><input type="text" name="name" id="name" class="stored" /></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>amar@yopmail.com</td>
+                <td><input type="text" name="name" id="name" class="stored" /></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <form id="localStorageTest" method="post" action="">
+        @*  <label>Name:</label>
+        <input type="text" name="name" id="name" class="stored" value="" />
+
+        <label>Email:</label>
+        <input type="email" name="email" id="email" class="stored" value="" />
+
+        <label>Message:</label>
+        <textarea name="message" id="message" class="stored"></textarea>
+
+        <button type="button" class="btn btn-success savebtn" id="savebutton">Save</button>*@
+        <button type="button" class="btn btn-success savebtn" id="submitbutton">Submit</button>
+    </form>
+
+</div>
+
+<script>
+    $("#submitbutton").on('click', function () {
+
+        var UserModel = [];
+        // loop over each table row (tr)
+        $("#myTable tbody tr").each(function () {
+            let currentRow = $(this);
+            let col1_value = currentRow.find("td:eq(0)").text();
+            let col2_value = currentRow.find("td:eq(1)").text();
+            let col3_value = currentRow.find("td:eq(2) input").val();
+            let obj = {};
+            obj.Id = col1_value;
+            obj.Email = col2_value;
+            obj.MSG = col3_value;
+            UserModel.push(obj);
+        });
+        // alert(arrData);
+        console.log(UserModel);
+
+        $.ajax(
+            {
+                type: 'POST',
+                url: "Home/SaveData",
+                data: {
+                    UserModel: UserModel
+                },
+                dataType: "text",
+                success: function (resultData) {
+                    if (resultData) {
+                        alert("Save Complete");
+                    }
+                }
+            }
+        )
+
+    });
+
+
+
+    function Sum(num1, num2) {
+        debugger
+        let sumResult = num1 + num2;
+        //console.log(sumResult);
+         return sumResult;
+    }
+
+    let res=Sum(11, 23);
+    console.log(res)
+
+
+
+
+
+
+
+
+</script>
+
